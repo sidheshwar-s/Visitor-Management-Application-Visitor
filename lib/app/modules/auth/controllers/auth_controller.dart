@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -32,6 +33,7 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
+      storeCompanyDetails(userCredential.user);
       isLoading.value = false;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -73,4 +75,13 @@ class AuthController extends GetxController {
       );
     }
   }
+}
+
+void storeCompanyDetails(User? user) async {
+  final uid = user?.uid;
+  var data =
+      await FirebaseFirestore.instance.collection("companyIds").doc(uid).get();
+  var companyId = data["companyId"];
+  const storage = FlutterSecureStorage();
+  await storage.write(key: "companyId", value: companyId);
 }

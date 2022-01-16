@@ -29,7 +29,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.VISITOR_DETAILS,
-      page: () => VisitorDetailsView(),
+      page: () => const VisitorDetailsView(),
       binding: VisitorDetailsBinding(),
     ),
   ];

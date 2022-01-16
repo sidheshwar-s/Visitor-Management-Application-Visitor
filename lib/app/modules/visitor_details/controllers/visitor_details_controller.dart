@@ -1,20 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:vms_visitor_flutter/app/modules/visitor_details/providers/visitor_details_provider.dart';
 
 class VisitorDetailsController extends GetxController {
-  //TODO: Implement VisitorDetailsController
+  TextEditingController mobileController = TextEditingController();
+  RxBool isLoading = RxBool(false);
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  getVisitorsData() async {
+    isLoading.value = true;
+    await VisitorDetailsProvider().getVisitorDetails(mobileController.text);
+    isLoading.value = false;
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }
