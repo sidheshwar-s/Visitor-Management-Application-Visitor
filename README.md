@@ -1,16 +1,12 @@
-# vms_visitor_flutter
+## Visitor management Applicatoin
 
-A new Flutter project.
+This application eases the work flow of appointments and work load of employees
 
-## Getting Started
+This is the Visitor side of the application build using flutter.
 
-This project is a starting point for a Flutter application.
+## To run the application:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Pre-requisites:
+* flutter sdk
+* android emulator
+* vs code (or) android studio
