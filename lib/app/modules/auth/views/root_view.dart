@@ -17,7 +17,7 @@ class RootView extends GetView<AuthController> {
         Get.lazyPut<HomeController>(
           () => HomeController(),
         );
-        return HomeView();
+        return const HomeView();
       }
     });
   }

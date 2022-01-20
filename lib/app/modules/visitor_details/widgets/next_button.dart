@@ -3,13 +3,16 @@ import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+
 import 'package:vms_visitor_flutter/app/data/constants.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/controllers/visitor_details_controller.dart';
 
 class NextButton extends GetView<VisitorDetailsController> {
   const NextButton({
     Key? key,
+    required this.onPressed,
   }) : super(key: key);
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,7 @@ class NextButton extends GetView<VisitorDetailsController> {
           ),
           primary: kDarkBlue,
         ),
-        onPressed: () {
-          controller.getVisitorsData();
-        },
+        onPressed: onPressed,
         child: Obx(
           () => Row(
             mainAxisSize: MainAxisSize.min,

@@ -1,11 +1,6 @@
-import 'dart:developer';
-import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:vms_visitor_flutter/app/data/common.dart';
 import 'package:vms_visitor_flutter/app/data/constants.dart';
 import 'app/routes/app_pages.dart';
 
@@ -58,41 +53,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-
-void addInterceptors() async {
-  const storage = FlutterSecureStorage();
-  dioClient.interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (request, handler) async {
-        var token = await storage.read(key: "authToken");
-        log(token ?? '', name: "token");
-        if (token != null && token != '') {
-          request.headers['Authorization'] = 'Bearer $token';
-        }
-        return handler.next(request);
-      },
-      onError: (e, handler) async {
-        if (e.response?.statusCode == 401) {
-          //get new tokens ...
-          String? token =
-              await FirebaseAuth.instance.currentUser?.getIdToken(true);
-          //set bearer
-          storage.write(key: "authToken", value: token);
-          e.requestOptions.headers["Authorization"] = "Bearer $token";
-          //create request with new access token
-          final opts = Options(
-            method: e.requestOptions.method,
-            headers: e.requestOptions.headers,
-          );
-          final cloneReq = await dioClient.request(e.requestOptions.path,
-              options: opts,
-              data: e.requestOptions.data,
-              queryParameters: e.requestOptions.queryParameters);
-
-          return handler.resolve(cloneReq);
-        }
-      },
-    ),
-  );
 }

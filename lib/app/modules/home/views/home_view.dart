@@ -5,8 +5,9 @@ import 'package:vms_visitor_flutter/app/modules/auth/controllers/auth_controller
 import 'package:vms_visitor_flutter/app/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
-// ignore: use_key_in_widget_constructors
 class HomeView extends GetView<HomeController> {
+  const HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

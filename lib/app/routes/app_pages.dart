@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-
+import 'package:vms_visitor_flutter/app/modules/visitor_details/views/otp_view.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/root_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -19,7 +19,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => HomeView(),
+      page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -32,5 +32,10 @@ class AppPages {
       page: () => const VisitorDetailsView(),
       binding: VisitorDetailsBinding(),
     ),
+    GetPage(
+      name: _Paths.OTP,
+      page: () => const OtpView(),
+      binding: VisitorDetailsBinding(),
+    )
   ];
 }

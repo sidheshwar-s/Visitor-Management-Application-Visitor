@@ -42,7 +42,11 @@ class VisitorDetailsView extends GetView<VisitorDetailsController> {
               const SizedBox(
                 height: 50,
               ),
-              const NextButton()
+              NextButton(
+                onPressed: () {
+                  controller.getVisitorsData();
+                },
+              )
             ],
           ),
         ),

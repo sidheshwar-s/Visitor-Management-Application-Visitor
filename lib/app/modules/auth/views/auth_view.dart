@@ -24,11 +24,18 @@ class AuthView extends GetView<AuthController> {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
                   Image.asset(
                     'assets/icons/vms_logo.png',
                     width: 100,
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 25.0),

@@ -4,6 +4,7 @@ final kLightBlue = Colors.blue[300];
 const kBlue = Colors.blue;
 final kDarkBlue = Colors.blue[800];
 const kWhite = Colors.white;
+const kHalfWhite = Colors.white38;
 const kRed = Colors.red;
 const kGrey = Colors.black54;
 const kBlack = Colors.black;
