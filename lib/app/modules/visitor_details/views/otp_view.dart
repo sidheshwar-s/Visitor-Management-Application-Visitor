@@ -63,14 +63,6 @@ class OtpView extends GetView<VisitorDetailsController> {
                       controller.otpValue.value = otp;
                     },
                     errorTextSpace: 25,
-                    validator: (enterdOtp) {
-                      if (enterdOtp == null) {
-                        return null;
-                      }
-                      if (enterdOtp != controller.visitorInfoModel?.otp) {
-                        return "Invalid OTP";
-                      }
-                    },
                   ),
                 ),
                 const SizedBox(

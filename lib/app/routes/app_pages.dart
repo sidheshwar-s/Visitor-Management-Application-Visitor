@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:vms_visitor_flutter/app/modules/visitor_details/views/details_view.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/views/otp_view.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/root_view.dart';
@@ -35,6 +36,11 @@ class AppPages {
     GetPage(
       name: _Paths.OTP,
       page: () => const OtpView(),
+      binding: VisitorDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.VISITOR_DETAILS_FORM,
+      page: () => const DetailsView(),
       binding: VisitorDetailsBinding(),
     )
   ];

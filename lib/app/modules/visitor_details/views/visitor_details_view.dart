@@ -46,7 +46,7 @@ class VisitorDetailsView extends GetView<VisitorDetailsController> {
                 onPressed: () {
                   controller.getVisitorsData();
                 },
-              )
+              ),
             ],
           ),
         ),
