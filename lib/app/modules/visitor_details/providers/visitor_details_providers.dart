@@ -16,4 +16,15 @@ class VisitorDetailsProvider {
       showSnackBar(title: e.toString());
     }
   }
+
+  Future<void> sendVisitorData(Map<String, dynamic> data) async {
+    const url = "$apiUrl/visitor/saveVisitor";
+    try {
+      await dioClient.post(url, data: data);
+    } on DioError catch (e) {
+      showSnackBar(title: e.response?.data['message']);
+    } catch (e) {
+      showSnackBar(title: e.toString());
+    }
+  }
 }

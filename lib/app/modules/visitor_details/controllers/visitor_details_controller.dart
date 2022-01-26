@@ -8,8 +8,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:vms_visitor_flutter/app/data/common.dart';
 import 'package:vms_visitor_flutter/app/data/constants.dart';
+import 'package:vms_visitor_flutter/app/modules/visitor_details/models/save_visitor_model.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/models/visitor_info_model.dart';
-import 'package:vms_visitor_flutter/app/modules/visitor_details/providers/visitor_details_provider.dart';
+import 'package:vms_visitor_flutter/app/modules/visitor_details/providers/visitor_details_providers.dart';
 import 'package:vms_visitor_flutter/app/routes/app_pages.dart';
 
 class VisitorDetailsController extends GetxController {
@@ -29,7 +30,9 @@ class VisitorDetailsController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxString otpValue = RxString('');
   Rx<File?> scannedDocument = Rx<File?>(null);
-  String? scannerDocumentUrl;
+  RxnString scannerDocumentUrl = RxnString(null);
+  Rx<File?> selfieFile = Rx<File?>(null);
+  RxnString selfieUrl = RxnString(null);
 
   getVisitorsData() async {
     isLoading.value = true;
@@ -89,16 +92,47 @@ class VisitorDetailsController extends GetxController {
     }
     try {
       await FirebaseStorage.instance
-          .ref('document-proofs')
+          .ref('document-proofs/${DateTime.now().toIso8601String()}')
           .putFile(scannedDocument.value!)
           .then(
         (image) async {
-          scannerDocumentUrl = await image.ref.getDownloadURL();
-          log(scannerDocumentUrl!);
+          scannerDocumentUrl.value = await image.ref.getDownloadURL();
         },
       );
     } on FirebaseException catch (e) {
       showSnackBar(title: e.message);
     }
+  }
+
+  void uploadSelfie() async {
+    if (selfieFile.value == null) {
+      return;
+    }
+    try {
+      await FirebaseStorage.instance
+          .ref('selfie-images/${DateTime.now().toIso8601String()}')
+          .putFile(selfieFile.value!)
+          .then((image) async {
+        selfieUrl.value = await image.ref.getDownloadURL();
+      });
+    } on FirebaseException catch (e) {
+      showSnackBar(title: e.message);
+    }
+  }
+
+  Future<Map<String, dynamic>> getVisitorJson() async {
+    const storage = FlutterSecureStorage();
+    String? company = await storage.read(key: "companyId");
+    SaveVisitorModel visitorModel = SaveVisitorModel(
+      name: nameController.text,
+      phone: mobileController.text,
+      address: addressController.text,
+      company: company ?? 'none',
+      selfieLink: selfieUrl.value ?? 'none',
+      idType: selectedDocumentType.value,
+      idLink: scannerDocumentUrl.value ?? 'none',
+      companyName: companyNameController.text,
+    );
+    return visitorModel.toMap();
   }
 }
