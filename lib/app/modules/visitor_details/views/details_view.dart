@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vms_visitor_flutter/app/data/common.dart';
 import 'package:vms_visitor_flutter/app/data/constants.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/controllers/visitor_details_controller.dart';
+import 'package:vms_visitor_flutter/app/modules/visitor_details/models/visitor_model.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/providers/visitor_details_providers.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/widgets/custom_text_field.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/widgets/document_type_drop_down.dart';
@@ -140,7 +141,10 @@ class DetailsView extends GetView<VisitorDetailsController> {
                         controller.isLoading.value = true;
                         Map<String, dynamic> data =
                             await controller.getVisitorJson();
-                        await VisitorDetailsProvider().sendVisitorData(data);
+                        Map<String, dynamic>? response =
+                            await VisitorDetailsProvider()
+                                .sendVisitorData(data);
+                        modifyVisitorModel(response);
                         controller.isLoading.value = false;
                       },
                     ),
@@ -189,5 +193,12 @@ class DetailsView extends GetView<VisitorDetailsController> {
         !controller.nameController.isBlank! &&
         !controller.addressController.isBlank! &&
         !controller.companyNameController.isBlank!;
+  }
+
+  void modifyVisitorModel(Map<String, dynamic>? response) {
+    controller.visitorInfoModel?.copyWith(
+      visitor: VisitorModel.fromMap(response?['visitor']),
+    );
+    controller.storeToken();
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,12 +41,18 @@ class VisitorDetailsController extends GetxController {
     isLoading.value = false;
   }
 
-  void handleRoutes() {
+  void handleRoutes() async {
     if (visitorInfoModel?.token == null) {
       Get.toNamed(Routes.OTP);
     } else {
-      // TODO: take to add members page
+      storeToken();
+      Get.toNamed(Routes.REQUEST_MEETING);
     }
+  }
+
+  void storeToken() async {
+    const storage = FlutterSecureStorage();
+    await storage.write(key: 'authToken', value: visitorInfoModel!.token);
   }
 
   void addInterceptors() async {

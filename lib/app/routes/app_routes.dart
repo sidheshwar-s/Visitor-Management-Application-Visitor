@@ -10,6 +10,7 @@ abstract class Routes {
   static const VISITOR_DETAILS = _Paths.VISITOR_DETAILS;
   static const OTP = _Paths.OTP;
   static const VISITOR_DETIALS_FORM = _Paths.VISITOR_DETAILS_FORM;
+  static const REQUEST_MEETING = _Paths.REQUEST_MEETING;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const VISITOR_DETAILS = '/visitor-details';
   static const VISITOR_DETAILS_FORM = '/visitor-details-form';
   static const OTP = '/otp';
+  static const REQUEST_MEETING = '/request-meeting';
 }
