@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/root_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/on_going_request/bindings/on_going_request_binding.dart';
+import '../modules/on_going_request/views/on_going_request_view.dart';
 import '../modules/request_meeting/bindings/request_meeting_binding.dart';
 import '../modules/request_meeting/views/request_meeting_view.dart';
 import '../modules/visitor_details/bindings/visitor_details_binding.dart';
@@ -49,6 +52,11 @@ class AppPages {
       name: _Paths.REQUEST_MEETING,
       page: () => const RequestMeetingView(),
       binding: RequestMeetingBinding(),
+    ),
+    GetPage(
+      name: _Paths.ON_GOING_REQUEST,
+      page: () => const OnGoingRequestView(),
+      binding: OnGoingRequestBinding(),
     ),
   ];
 }

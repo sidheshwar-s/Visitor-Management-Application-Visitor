@@ -15,6 +15,7 @@ class RequestMeetingProviders {
           EmployeesListModel.fromMap(response.data);
       return employeeModel;
     } on DioError catch (e) {
+      log(e.message);
       showSnackBar(title: e.response?.data['message']);
     } catch (e) {
       showSnackBar(title: e.toString());
@@ -32,6 +33,8 @@ class RequestMeetingProviders {
 
       MeetingModel meetingModel =
           MeetingModel.fromMap(response.data['meeting']);
+
+      log(response.data.toString());
       return meetingModel;
     } on DioError catch (e) {
       log(e.message);

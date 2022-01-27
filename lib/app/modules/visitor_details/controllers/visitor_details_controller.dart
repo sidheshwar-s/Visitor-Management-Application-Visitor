@@ -72,7 +72,9 @@ class VisitorDetailsController extends GetxController {
         onError: (e, handler) async {
           if (e.response?.statusCode == 401) {
             Get.offNamedUntil(Routes.HOME, ModalRoute.withName(Routes.AUTH));
+            return;
           }
+          return handler.next(e);
         },
       ),
     );

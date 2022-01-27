@@ -9,6 +9,7 @@ import 'package:vms_visitor_flutter/app/modules/request_meeting/models/meeting_m
 import 'package:vms_visitor_flutter/app/modules/request_meeting/models/request_meeting_model.dart';
 import 'package:vms_visitor_flutter/app/modules/request_meeting/providers/request_meeting_providers.dart';
 import 'package:vms_visitor_flutter/app/modules/request_meeting/views/employee_list_view.dart';
+import 'package:vms_visitor_flutter/app/routes/app_pages.dart';
 
 class RequestMeetingController extends GetxController {
   TextEditingController purposeController = TextEditingController();
@@ -46,8 +47,11 @@ class RequestMeetingController extends GetxController {
     meetingModel = await RequestMeetingProviders()
         .requestMeeting(requestMeetingModel, context);
     isLoading.value = false;
-    log("got meeting details");
+    log('got meeting details');
     Get.back();
+    if (meetingModel != null) {
+      Get.toNamed(Routes.ON_GOING_REQUEST);
+    }
   }
 
   List<String>? getBelongings() {

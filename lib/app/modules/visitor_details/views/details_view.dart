@@ -10,6 +10,7 @@ import 'package:vms_visitor_flutter/app/modules/visitor_details/providers/visito
 import 'package:vms_visitor_flutter/app/modules/visitor_details/widgets/custom_text_field.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/widgets/document_type_drop_down.dart';
 import 'package:vms_visitor_flutter/app/modules/visitor_details/widgets/next_button.dart';
+import 'package:vms_visitor_flutter/app/routes/app_pages.dart';
 
 class DetailsView extends GetView<VisitorDetailsController> {
   const DetailsView({Key? key}) : super(key: key);
@@ -77,7 +78,22 @@ class DetailsView extends GetView<VisitorDetailsController> {
                               Icons.upload,
                               color: kBlack,
                             ),
-                            onPressed: onPressedForUploadDocument(),
+                            onPressed: () async {
+                              XFile? picture = await ImagePicker().pickImage(
+                                source: ImageSource.camera,
+                              );
+                              if (picture == null) {
+                                showSnackBar(
+                                  title: "Kindly upload your any proof",
+                                  message:
+                                      "It is cumpulsory to proceed forward",
+                                );
+                                return;
+                              }
+                              controller.scannedDocument.value =
+                                  File(picture.path);
+                              controller.uploadFiles();
+                            },
                             label: const Text(
                               "Upload Document",
                               style: TextStyle(
@@ -113,7 +129,21 @@ class DetailsView extends GetView<VisitorDetailsController> {
                               Icons.photo,
                               color: kBlack,
                             ),
-                            onPressed: onPressedForSelfieUpload(),
+                            onPressed: () async {
+                              XFile? picture = await ImagePicker().pickImage(
+                                source: ImageSource.camera,
+                              );
+                              if (picture == null) {
+                                showSnackBar(
+                                  title: "Kindly take your selfie",
+                                  message:
+                                      "It is cumpulsory to proceed forward",
+                                );
+                                return;
+                              }
+                              controller.selfieFile.value = File(picture.path);
+                              controller.uploadSelfie();
+                            },
                             label: const Text(
                               "Capture Selfie",
                               style: TextStyle(
@@ -146,6 +176,8 @@ class DetailsView extends GetView<VisitorDetailsController> {
                                 .sendVisitorData(data);
                         modifyVisitorModel(response);
                         controller.isLoading.value = false;
+                        Get.lazyPut(() => VisitorDetailsController());
+                        Get.toNamed(Routes.REQUEST_MEETING);
                       },
                     ),
                 ],
@@ -157,36 +189,6 @@ class DetailsView extends GetView<VisitorDetailsController> {
     );
   }
 
-  onPressedForUploadDocument() async {
-    XFile? picture = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    if (picture == null) {
-      showSnackBar(
-        title: "Kindly upload your any proof",
-        message: "It is cumpulsory to proceed forward",
-      );
-      return;
-    }
-    controller.scannedDocument.value = File(picture.path);
-    controller.uploadFiles();
-  }
-
-  onPressedForSelfieUpload() async {
-    XFile? picture = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    if (picture == null) {
-      showSnackBar(
-        title: "Kindly take your selfie",
-        message: "It is cumpulsory to proceed forward",
-      );
-      return;
-    }
-    controller.selfieFile.value = File(picture.path);
-    controller.uploadSelfie();
-  }
-
   bool isAllDetailsAvailable() {
     return controller.scannerDocumentUrl.value != null &&
         controller.selfieUrl.value != null &&
@@ -195,10 +197,12 @@ class DetailsView extends GetView<VisitorDetailsController> {
         !controller.companyNameController.isBlank!;
   }
 
-  void modifyVisitorModel(Map<String, dynamic>? response) {
-    controller.visitorInfoModel?.copyWith(
+  void modifyVisitorModel(Map<String, dynamic>? response) async {
+    controller.visitorInfoModel = controller.visitorInfoModel?.copyWith(
       visitor: VisitorModel.fromMap(response?['visitor']),
+      token: response?['token'],
     );
-    controller.storeToken();
+    await controller.storeToken();
+    Get.find<VisitorDetailsController>().addInterceptors();
   }
 }

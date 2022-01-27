@@ -11,6 +11,7 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const VISITOR_DETIALS_FORM = _Paths.VISITOR_DETAILS_FORM;
   static const REQUEST_MEETING = _Paths.REQUEST_MEETING;
+  static const ON_GOING_REQUEST = _Paths.ON_GOING_REQUEST;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const VISITOR_DETAILS_FORM = '/visitor-details-form';
   static const OTP = '/otp';
   static const REQUEST_MEETING = '/request-meeting';
+  static const ON_GOING_REQUEST = '/on-going-request';
 }
