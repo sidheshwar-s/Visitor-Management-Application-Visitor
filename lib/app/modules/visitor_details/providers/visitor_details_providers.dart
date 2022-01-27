@@ -11,7 +11,7 @@ class VisitorDetailsProvider {
           VisitorInfoModel.fromMap(response.data);
       return visitorInfoModel;
     } on DioError catch (e) {
-      showSnackBar(title: e.message);
+      showSnackBar(title: e.response?.data['message']);
     } catch (e) {
       showSnackBar(title: e.toString());
     }

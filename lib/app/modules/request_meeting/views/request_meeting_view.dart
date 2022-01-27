@@ -73,7 +73,6 @@ class RequestMeetingView extends GetView<RequestMeetingController> {
                 Obx(
                   () => TextField(
                     controller: controller.vehicleNumberController,
-                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         errorText: controller.vehicleNumberErrorText.value,
                         hintText: "Vehicle Number"),

@@ -14,11 +14,23 @@ class AddAdditionalMembersView extends GetView<RequestMeetingController> {
         title: const Text('Additional Members'),
         centerTitle: true,
         actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Next",
-              style: TextStyle(fontSize: 18),
+          Obx(
+            () => TextButton(
+              onPressed: () {
+                controller.getEmployeeList();
+              },
+              child: controller.isLoading.value
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : const Text(
+                      "Next",
+                      style: TextStyle(fontSize: 18),
+                    ),
             ),
           )
         ],

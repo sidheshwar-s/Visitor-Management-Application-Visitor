@@ -45,14 +45,16 @@ class VisitorDetailsController extends GetxController {
     if (visitorInfoModel?.token == null) {
       Get.toNamed(Routes.OTP);
     } else {
-      storeToken();
+      await storeToken();
+      addInterceptors();
       Get.toNamed(Routes.REQUEST_MEETING);
     }
   }
 
-  void storeToken() async {
+  Future<void> storeToken() async {
     const storage = FlutterSecureStorage();
     await storage.write(key: 'authToken', value: visitorInfoModel!.token);
+    addInterceptors();
   }
 
   void addInterceptors() async {
