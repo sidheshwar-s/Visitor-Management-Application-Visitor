@@ -11,4 +11,6 @@ class RequestMeetingController extends GetxController {
   RxBool isVehicle = RxBool(false);
   RxBool isOthers = RxBool(false);
   RxList<AdditionalUserModel> additionalMembers = RxList<AdditionalUserModel>();
+  RxnString purpopseErrorText = RxnString(null);
+  RxnString vehicleNumberErrorText = RxnString(null);
 }

@@ -53,9 +53,13 @@ class RequestMeetingView extends GetView<RequestMeetingController> {
                       ?.copyWith(fontWeight: FontWeight.normal),
                 ),
                 const SizedBox(height: 10),
-                TextField(
-                  controller: controller.purposeController,
-                  decoration: const InputDecoration(hintText: "Purpose"),
+                Obx(
+                  () => TextField(
+                    controller: controller.purposeController,
+                    decoration: InputDecoration(
+                        hintText: "Purpose",
+                        errorText: controller.purpopseErrorText.value),
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -66,10 +70,14 @@ class RequestMeetingView extends GetView<RequestMeetingController> {
                       ?.copyWith(fontWeight: FontWeight.normal),
                 ),
                 const SizedBox(height: 10),
-                TextField(
-                  controller: controller.vehicleNumberController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(hintText: "Vehicle Number"),
+                Obx(
+                  () => TextField(
+                    controller: controller.vehicleNumberController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        errorText: controller.vehicleNumberErrorText.value,
+                        hintText: "Vehicle Number"),
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -129,6 +137,11 @@ class RequestMeetingView extends GetView<RequestMeetingController> {
                 ),
                 NextButton(
                   onPressed: () async {
+                    if (controller.purposeController.text == '') {
+                      controller.purpopseErrorText.value =
+                          "This field is required";
+                      return;
+                    }
                     Get.to(() => const AddAdditionalMembersView());
                   },
                 ),
