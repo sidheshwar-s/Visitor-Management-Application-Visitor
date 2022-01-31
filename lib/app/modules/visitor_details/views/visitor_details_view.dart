@@ -43,8 +43,8 @@ class VisitorDetailsView extends GetView<VisitorDetailsController> {
                 height: 50,
               ),
               NextButton(
-                onPressed: () {
-                  controller.getVisitorsData();
+                onPressed: () async {
+                  await controller.getVisitorsData();
                 },
               ),
             ],

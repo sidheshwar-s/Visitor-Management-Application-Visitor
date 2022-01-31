@@ -46,7 +46,6 @@ class VisitorDetailsController extends GetxController {
       Get.toNamed(Routes.OTP);
     } else {
       await storeToken();
-      addInterceptors();
       Get.toNamed(Routes.REQUEST_MEETING);
     }
   }

@@ -203,6 +203,5 @@ class DetailsView extends GetView<VisitorDetailsController> {
       token: response?['token'],
     );
     await controller.storeToken();
-    Get.find<VisitorDetailsController>().addInterceptors();
   }
 }

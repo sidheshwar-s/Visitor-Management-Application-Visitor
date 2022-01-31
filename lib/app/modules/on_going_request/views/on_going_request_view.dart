@@ -16,6 +16,8 @@ class OnGoingRequestView extends GetView<OnGoingRequestController> {
     EmployeeModel? employeeModel =
         requestMeetingController.meetingModel?.employee;
 
+    controller.onInit();
+
     return Scaffold(
       body: SafeArea(
         child: employeeModel == null
