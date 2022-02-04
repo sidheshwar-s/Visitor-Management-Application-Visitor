@@ -24,7 +24,8 @@ class EmployeeListView extends GetView<RequestMeetingController> {
                   final currentEmp = employees[index];
                   return InkWell(
                     borderRadius: BorderRadius.circular(15),
-                    onTap: () => currentEmp.isOnVacationMode == false
+                    onTap: () => currentEmp.status == null ||
+                            currentEmp.status != 'disabled'
                         ? showConfirmDialog(currentEmp, context)
                         : null,
                     child: DefaultTextStyle(
@@ -75,7 +76,8 @@ class EmployeeListView extends GetView<RequestMeetingController> {
                               ],
                             ),
                           ),
-                          if (currentEmp.isOnVacationMode == true)
+                          if (currentEmp.status != null &&
+                              currentEmp.status == 'disabled')
                             Positioned.fill(
                               child: Container(
                                 padding: const EdgeInsets.all(15),

@@ -22,8 +22,12 @@ class StreamSocket {
 StreamSocket streamSocket = StreamSocket();
 
 void connectAndListen() {
-  IO.Socket socket =
-      IO.io(apiUrl, OptionBuilder().setTransports(['websocket']).build());
+  IO.Socket socket = IO.io(
+      apiUrl,
+      OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .build());
 
   socket.onConnect((_) {
     print('connect');
@@ -31,8 +35,13 @@ void connectAndListen() {
   });
 
   //When an event recieved from server, data is added to the stream
-  socket.on('event', (data) => streamSocket.addResponse);
+  socket.on('meeting_updated', (data) {
+    print(data);
+    return streamSocket.addResponse;
+  });
   socket.onDisconnect((_) => print('disconnect'));
+
+  socket.connect();
 }
 
 class OnGoingRequestController extends GetxController {
@@ -40,6 +49,7 @@ class OnGoingRequestController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    connectAndListen();
   }
 
   // void connect() {
@@ -62,7 +72,5 @@ class OnGoingRequestController extends GetxController {
   // }
 
   @override
-  void onReady() {
-    connectAndListen();
-  }
+  void onReady() {}
 }
