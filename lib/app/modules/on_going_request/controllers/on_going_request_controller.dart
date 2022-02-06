@@ -1,76 +1,69 @@
-import 'dart:async';
+import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:socket_io_client/socket_io_client.dart';
-import 'package:vms_visitor_flutter/app/data/common.dart';
-
-late IO.Socket socket;
-String userid = "";
-
-class StreamSocket {
-  final _socketResponse = StreamController<String>();
-
-  void Function(String) get addResponse => _socketResponse.sink.add;
-
-  Stream<String> get getResponse => _socketResponse.stream;
-
-  void dispose() {
-    _socketResponse.close();
-  }
-}
-
-StreamSocket streamSocket = StreamSocket();
-
-void connectAndListen() {
-  IO.Socket socket = IO.io(
-      apiUrl,
-      OptionBuilder()
-          .setTransports(['websocket'])
-          .disableAutoConnect()
-          .build());
-
-  socket.onConnect((_) {
-    print('connect');
-    socket.emit('msg', 'test');
-  });
-
-  //When an event recieved from server, data is added to the stream
-  socket.on('meeting_updated', (data) {
-    print(data);
-    return streamSocket.addResponse;
-  });
-  socket.onDisconnect((_) => print('disconnect'));
-
-  socket.connect();
-}
+import 'package:vms_visitor_flutter/app/data/constants.dart';
+import 'package:vms_visitor_flutter/app/modules/request_meeting/controllers/request_meeting_controller.dart';
+import 'package:vms_visitor_flutter/app/modules/request_meeting/models/meeting_model.dart';
+import 'package:vms_visitor_flutter/app/routes/app_pages.dart';
 
 class OnGoingRequestController extends GetxController {
-  IO.Socket? socket;
+  MeetingModel? meetingModel =
+      Get.find<RequestMeetingController>().meetingModel;
+
+  RxString status = RxString('upComing');
+
   @override
   void onInit() {
     super.onInit();
-    connectAndListen();
+    handleRoutes();
   }
 
-  // void connect() {
-  //   socket =
-  //       IO.io("https://socketio-chat-h9jt.herokuapp.com/", <String, dynamic>{
-  //     "transports": ["websocket"],
-  //     "autoConnect": false,
-  //   });
-  //   socket!.connect();
-  //   socket!.onConnect((data) {
-  //     print("Connected");
-  //     socket!.on("message", (msg) {
-  //       log(msg, name: "socket message");
-  //     });
-  //   });
-  //   socket!.
-  //   socket!.emit('sidheshwar', 'testing');
-  //   update();
-  //   print(" isconnect " + socket!.connected.toString());
-  // }
+  void handleRoutes() async {
+    await Future.delayed(const Duration(seconds: 55));
 
-  @override
-  void onReady() {}
+    if (status.value == 'upcoming') {
+      log("changing route due to timeout");
+      Future.delayed(const Duration(seconds: 5), () {
+        Get.offAllNamed(Routes.HOME);
+      });
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (timeStamp) {
+          Get.defaultDialog(
+            title: '',
+            titlePadding: const EdgeInsets.only(),
+            content: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: kRed,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.no_accounts_sharp),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Sorry no response from the employee, Try again or come back later",
+                  style: Get.textTheme.headline6?.copyWith(height: 1.5),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                const Text(
+                  "THANK YOU!",
+                )
+              ],
+            ),
+            onWillPop: () async {
+              Get.offAllNamed(Routes.HOME);
+              return true;
+            },
+          );
+        },
+      );
+    }
+  }
 }

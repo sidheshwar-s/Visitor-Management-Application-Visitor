@@ -50,9 +50,11 @@ class HomeView extends GetView<HomeController> {
               const SizedBox(
                 height: 150,
               ),
-              Text(
-                "Company name",
-                style: Get.textTheme.headline5,
+              Obx(
+                () => Text(
+                  controller.companyName.value ?? 'No company name',
+                  style: Get.textTheme.headline5,
+                ),
               ),
               const SizedBox(height: 50),
               Text(

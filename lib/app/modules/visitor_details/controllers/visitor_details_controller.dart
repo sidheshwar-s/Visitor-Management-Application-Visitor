@@ -34,6 +34,15 @@ class VisitorDetailsController extends GetxController {
   RxnString selfieUrl = RxnString(null);
 
   getVisitorsData() async {
+    log("getting visitor details");
+    if (mobileController.text.length != 10) {
+      showSnackBar(
+        title: "Please enter a valid mobile number",
+        backgroundColor: kRed.withOpacity(0.8),
+        foregroundColor: kWhite,
+      );
+      return;
+    }
     isLoading.value = true;
     visitorInfoModel =
         await VisitorDetailsProvider().getVisitorDetails(mobileController.text);

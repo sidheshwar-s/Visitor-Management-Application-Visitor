@@ -82,6 +82,8 @@ void storeCompanyDetails(User? user) async {
   var data =
       await FirebaseFirestore.instance.collection("companyIds").doc(uid).get();
   var companyId = data["companyId"];
+  String? companyName = data['companyName'];
   const storage = FlutterSecureStorage();
   await storage.write(key: "companyId", value: companyId);
+  await storage.write(key: 'companyName', value: companyName);
 }
