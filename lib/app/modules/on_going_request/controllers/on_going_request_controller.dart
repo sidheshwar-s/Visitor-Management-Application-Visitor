@@ -39,7 +39,10 @@ class OnGoingRequestController extends GetxController {
                     color: kRed,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.no_accounts_sharp),
+                  child: const Icon(
+                    Icons.no_accounts_sharp,
+                    size: 30,
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
