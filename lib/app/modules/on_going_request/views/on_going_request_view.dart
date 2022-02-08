@@ -104,7 +104,10 @@ class OnGoingRequestView extends GetView<OnGoingRequestController> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.back();
+                              requestMeetingController.getEmployeeList();
+                            },
                             icon: const Icon(
                               Icons.arrow_back_ios,
                               color: kWhite,

@@ -58,7 +58,7 @@ class OtpView extends GetView<VisitorDetailsController> {
                     obscureText: true,
                     controller: controller.otpController,
                     appContext: context,
-                    length: 6,
+                    length: 4,
                     onChanged: (otp) {
                       controller.otpValue.value = otp;
                     },

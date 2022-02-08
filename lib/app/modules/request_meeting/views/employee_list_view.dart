@@ -9,96 +9,100 @@ class EmployeeListView extends GetView<RequestMeetingController> {
 
   @override
   Widget build(BuildContext context) {
-    List<EmployeeModel>? employees = controller.employeesListModel?.employees;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pick the employee'),
-        centerTitle: true,
-      ),
-      body: employees != null
-          ? Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
-              child: ListView.builder(
-                itemCount: employees.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final currentEmp = employees[index];
-                  return InkWell(
-                    borderRadius: BorderRadius.circular(15),
-                    onTap: () => currentEmp.status == null ||
-                            currentEmp.status != 'disabled'
-                        ? showConfirmDialog(currentEmp, context)
-                        : null,
-                    child: DefaultTextStyle(
-                      style: const TextStyle(color: kWhite),
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(15),
-                            margin: const EdgeInsets.only(bottom: 20),
-                            decoration: BoxDecoration(
-                              color: kDarkBlue,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(currentEmp.image!),
-                                  radius: 30,
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      currentEmp.name ?? 'No name',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      currentEmp.designation ??
-                                          'No designation  provided',
-                                    )
-                                  ],
-                                ),
-                                const Spacer(),
-                                const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: kWhite,
-                                ),
-                              ],
-                            ),
-                          ),
-                          if (currentEmp.status != null &&
-                              currentEmp.status == 'disabled')
-                            Positioned.fill(
-                              child: Container(
+        appBar: AppBar(
+          title: const Text('Pick the employee'),
+          centerTitle: true,
+        ),
+        body: Obx(() {
+          return controller.employeesListModel.value?.employees != null
+              ? Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20.0, right: 20, top: 20),
+                  child: ListView.builder(
+                    itemCount:
+                        controller.employeesListModel.value?.employees?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final currentEmp = controller
+                          .employeesListModel.value!.employees![index];
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(15),
+                        onTap: () => currentEmp.status == null ||
+                                currentEmp.status != 'disabled'
+                            ? showConfirmDialog(currentEmp, context)
+                            : null,
+                        child: DefaultTextStyle(
+                          style: const TextStyle(color: kWhite),
+                          child: Stack(
+                            children: [
+                              Container(
                                 padding: const EdgeInsets.all(15),
                                 margin: const EdgeInsets.only(bottom: 20),
                                 decoration: BoxDecoration(
-                                  color: kGrey.withOpacity(0.5),
+                                  color: kDarkBlue,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(currentEmp.image!),
+                                      radius: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          currentEmp.name ?? 'No name',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          currentEmp.designation ??
+                                              'No designation  provided',
+                                        )
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: kWhite,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            )
-          : const Center(
-              child: Text("Sorry no employee is available right now"),
-            ),
-    );
+                              if (currentEmp.status != null &&
+                                  currentEmp.status == 'disabled')
+                                Positioned.fill(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(15),
+                                    margin: const EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                      color: kGrey.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : const Center(
+                  child: Text("Sorry no employee is available right now"),
+                );
+        }));
   }
 
   showConfirmDialog(EmployeeModel currentEmp, BuildContext context) {

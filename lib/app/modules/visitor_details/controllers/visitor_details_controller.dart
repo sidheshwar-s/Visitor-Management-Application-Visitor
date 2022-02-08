@@ -142,7 +142,7 @@ class VisitorDetailsController extends GetxController {
     String? company = await storage.read(key: "companyId");
     SaveVisitorModel visitorModel = SaveVisitorModel(
       name: nameController.text,
-      phone: mobileController.text,
+      phone: '91' + mobileController.text,
       address: addressController.text,
       company: company ?? 'none',
       selfieLink: selfieUrl.value ?? 'none',

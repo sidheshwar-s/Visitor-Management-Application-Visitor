@@ -22,13 +22,14 @@ class RequestMeetingController extends GetxController {
   RxnString purpopseErrorText = RxnString(null);
   RxnString vehicleNumberErrorText = RxnString(null);
   RxBool isLoading = RxBool(false);
-  EmployeesListModel? employeesListModel;
+  Rxn<EmployeesListModel?> employeesListModel = Rxn<EmployeesListModel?>();
   MeetingModel? meetingModel;
   static List<String> belongings = [];
 
   void getEmployeeList() async {
     isLoading.value = true;
-    employeesListModel = await RequestMeetingProviders().getEmployeeList();
+    employeesListModel.value =
+        await RequestMeetingProviders().getEmployeeList();
     isLoading.value = false;
     Get.to(() => const EmployeeListView());
   }

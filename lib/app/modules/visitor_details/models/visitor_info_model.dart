@@ -35,7 +35,7 @@ class VisitorInfoModel {
   factory VisitorInfoModel.fromMap(Map<String, dynamic> map) {
     return VisitorInfoModel(
       token: map['token'],
-      otp: map['otp'],
+      otp: map['otp'].toString(),
       visitor:
           map['visitor'] != null ? VisitorModel.fromMap(map['visitor']) : null,
     );

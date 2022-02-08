@@ -4,7 +4,7 @@ import 'package:vms_visitor_flutter/app/modules/visitor_details/models/visitor_i
 
 class VisitorDetailsProvider {
   Future<VisitorInfoModel?> getVisitorDetails(String phoneNumber) async {
-    final url = "$apiUrl/visitor/searchVisitor?phone=$phoneNumber";
+    final url = "$apiUrl/visitor/searchVisitor?phone=91$phoneNumber";
     try {
       Response response = await dioClient.get(url);
       VisitorInfoModel visitorInfoModel =
